@@ -37,20 +37,30 @@ def right(b):    print("right")
 
 
 def move(board, direction):
+    """Swipe all tiles to one edge."""
     if direction == "down":
         starts = [(3, 0), (3, 1), (3, 2), (3, 3)]
         rel_next = (-1, 0)
     for pos in starts:
-        value_here = board[pos[0], pos[1]]
-        print(f"{value_here=}")
-        pos_nabo = next_pos(pos, rel_next)
-        # print(f"{what=}")
-        value_nabo = board[pos_nabo[0], pos_nabo[1]]
-        if value_here == 0:
-            board[pos[0], pos[1]] = value_nabo
-            board[pos_nabo[0], pos_nabo[1]] = 0
-        else:
-            print(str(pos) + str(board[pos[0], pos[1]]))
+        pos_here = pos
+        for n in range(3):  # Really board.shape[0] - 1
+            pos_nabo = next_pos(pos_here, rel_next)
+            value_here = board[pos_here[0], pos_here[1]]
+            print(f"{pos_here=} {value_here=}")
+            value_nabo = board[pos_nabo[0], pos_nabo[1]]
+            print(f"{pos_nabo=} {value_nabo=}")
+            if value_here == 0:
+                board[pos_here[0], pos_here[1]] = value_nabo
+                board[pos_nabo[0], pos_nabo[1]] = 0
+            # elif value_here == value_nabo:  # No, adding is done elsewhere.
+            #     board[pos[0], pos[1]] += value_nabo
+            #     board[pos_nabo[0], pos_nabo[1]] = 0
+            else:
+                pass
+            # Update positions
+            pos_here = next_pos(pos_here, rel_next)
+            print(f"After update: {pos_here=}")
+            # print(str(pos) + str(board[pos[0], pos[1]]))
     return board
 
 
